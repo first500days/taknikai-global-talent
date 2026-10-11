@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/insights", "destination": "/blogs/", "permanent": true },
+    { "source": "/insights/:slug", "destination": "/:slug/", "permanent": true }
+  ]
+}

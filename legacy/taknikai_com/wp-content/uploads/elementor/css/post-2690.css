@@ -1,0 +1,8 @@
+.elementor-2690 .elementor-element.elementor-element-0ae0995{--display:flex;--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}.elementor-2690 .elementor-element.elementor-element-0ae0995:not(.elementor-motion-effects-element-type-background), .elementor-2690 .elementor-element.elementor-element-0ae0995 > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-color:#00000000;}#elementor-popup-modal-2690{background-color:rgba(0,0,0,.8);justify-content:center;align-items:center;pointer-events:all;}#elementor-popup-modal-2690 .dialog-message{width:640px;height:auto;}#elementor-popup-modal-2690 .dialog-close-button{display:flex;}#elementor-popup-modal-2690 .dialog-widget-content{box-shadow:2px 8px 23px 3px rgba(0,0,0,0.2);}/* Start custom CSS for container, class: .elementor-element-0ae0995 */#elementor-popup-modal-2690 .dialog-widget-content {
+    box-shadow: 2px 8px 23px 3px rgba(0,0,0,0.2);
+    border-radius: 35px;
+}
+
+.elementor-popup-modal .dialog-close-button svg {
+    fill: #fff !important;
+}/* End custom CSS */

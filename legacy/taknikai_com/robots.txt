@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-includes/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/uploads/wpforms/
+Disallow: /cdn-cgi/
+Disallow: /api/
+Disallow: /*?berqwp_request_cache*
+
+Sitemap: https://taknikai.com/sitemap.xml
+Sitemap: https://taknikai.com/sitemap.rss

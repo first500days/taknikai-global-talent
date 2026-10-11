@@ -1,0 +1,11 @@
+# Build output and dependencies. Patterns are anchored to the project root on purpose: legacy/ contains WordPress
+# asset folders named "dist" (wp-includes/css/dist, wp-includes/js/dist) that the static pages load.
+/node_modules
+/dist
+/.generated
+*.tsbuildinfo
+*.local
+.env
+.env.*
+.vercel
+.DS_Store

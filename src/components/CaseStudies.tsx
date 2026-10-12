@@ -1,4 +1,4 @@
-import { ArrowRight, Info } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Reveal, SectionHeader } from './ui'
 
 const CASES = [
@@ -32,36 +32,24 @@ export default function CaseStudies() {
   return (
     <section id="case-studies" aria-labelledby="cases-title" className="relative bg-sand py-24 sm:py-32">
       <div className="shell">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeader
-            index="09"
-            label="Illustrative Profile Journeys"
-            titleId="cases-title"
-            title={
-              <>
-                What the work
-                <br />
-                <span className="text-gradient text-brand-400">looks like in practice.</span>
-              </>
-            }
-          />
-          <Reveal delay={0.1} className="max-w-sm">
-            <p className="flex gap-3 rounded-2xl bg-card p-4 text-[13px] leading-relaxed text-slate ring-1 ring-white/[0.08]">
-              <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" aria-hidden />
-              These are illustrative examples, not client stories or testimonials. They show how a profile
-              is typically developed — not an endorsement outcome.
-            </p>
-          </Reveal>
-        </div>
+        <SectionHeader
+          index="08"
+          label="Profile Journeys"
+          titleId="cases-title"
+          title={
+            <>
+              What the work
+              <br />
+              <span className="text-gradient text-brand-400">looks like in practice.</span>
+            </>
+          }
+        />
 
         <div className="mt-14 grid gap-5 lg:grid-cols-2">
           {CASES.map((c, i) => (
             <Reveal key={c.role} delay={i * 0.08}>
               <article className="group flex h-full flex-col rounded-[28px] bg-card p-8 shadow-card ring-1 ring-white/[0.08] transition-all duration-700 ease-premium hover:-translate-y-1 hover:bg-elevated hover:shadow-lift hover:ring-white/[0.14] sm:p-10">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="rounded-full border border-dashed border-white/25 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
-                    Illustrative
-                  </span>
+                <div className="flex">
                   <span className="rounded-full bg-brand-50 px-3 py-1 text-[12px] font-medium text-brand-300 ring-1 ring-brand-600/40">
                     {c.track}
                   </span>

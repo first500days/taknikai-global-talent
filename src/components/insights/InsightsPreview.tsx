@@ -12,7 +12,7 @@ export default function InsightsPreview() {
       <div className="shell">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
-            index="13"
+            index="12"
             label="From the Blog"
             titleId="insights-preview-title"
             title={

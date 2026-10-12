@@ -129,7 +129,7 @@ export function MagneticButton({
   arrow?: boolean
   className?: string
   size?: 'sm' | 'md' | 'lg'
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }) {
   const ref = useRef<HTMLAnchorElement>(null)
   const reduce = useReducedMotion()

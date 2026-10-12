@@ -1,5 +1,5 @@
-import { BOOKING_URL } from '../lib/site'
-import { MagneticButton, Reveal, RevealLi } from './ui'
+import { AssessmentButton } from './TallyPopup'
+import { Reveal, RevealLi } from './ui'
 
 const STEPS = ['Book assessment', 'Receive gap analysis', 'Choose your pathway', 'Start building']
 
@@ -12,7 +12,7 @@ export default function FinalCTA() {
       <div className="shell relative text-center">
         <Reveal>
           <p className="eyebrow text-white/50">
-            <span className="text-brand-400">15</span> — Next step
+            <span className="text-brand-400">14</span> — Next step
           </p>
           <h2 id="cta-title" className="display mx-auto mt-6 max-w-4xl text-[clamp(2.6rem,7vw,5.75rem)] leading-[0.98] text-white">
             Find out where your profile <span className="text-gradient text-brand-400">stands.</span>
@@ -22,9 +22,9 @@ export default function FinalCTA() {
             become endorsement-ready.
           </p>
           <div className="mt-10 flex justify-center">
-            <MagneticButton href={BOOKING_URL} variant="light" size="lg" arrow>
+            <AssessmentButton variant="light" size="lg" arrow>
               Book My Free Assessment
-            </MagneticButton>
+            </AssessmentButton>
           </div>
         </Reveal>
 

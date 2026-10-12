@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
+import { TallyPopupProvider } from './components/TallyPopup'
 import { RouterProvider, useLocation } from './lib/router'
 
 // The React app renders the homepage only. Upskill, About Us, Blogs and the articles are static pages built from
@@ -16,11 +17,13 @@ export default function App() {
   return (
     <RouterProvider>
       <MotionConfig reducedMotion="user">
-        <Navbar />
-        <main id="main">
-          <Routes />
-        </main>
-        <Footer />
+        <TallyPopupProvider>
+          <Navbar />
+          <main id="main">
+            <Routes />
+          </main>
+          <Footer />
+        </TallyPopupProvider>
       </MotionConfig>
     </RouterProvider>
   )

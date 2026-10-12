@@ -1,43 +1,30 @@
 import { useEffect, useState } from 'react'
-import { LOGIN_URL, LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH, NAV } from '../lib/site'
+import { HEADER_LOGO_HEIGHT, HEADER_LOGO_SRC, HEADER_LOGO_WIDTH, NAV } from '../lib/site'
 import { useLocation } from '../lib/router'
 
 // Mirrors the original taknikai.com Elementor header (navy bar, Poppins 17px/500 links, red active/hover state,
-// red "Login/Sign up" button, full-width white dropdown at tablet/mobile widths) so every page shares one header.
-// The static pages render the same menu from the same NAV config (scripts/build-site.mjs).
-
-function Caret({ className = '' }: { className?: string }) {
-  return (
-    <svg aria-hidden viewBox="0 0 320 512" className={`h-[0.7em] w-[0.7em] fill-current ${className}`}>
-      <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
-    </svg>
-  )
-}
+// full-width white dropdown at tablet/mobile widths) so every page shares one header. Sticky, so it stays in view
+// without covering content. The static pages render the same menu from the same NAV config (scripts/build-site.mjs).
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const [subOpen, setSubOpen] = useState(false)
   const { path } = useLocation()
   const activeKey = path === '/' ? 'home' : ''
 
   useEffect(() => {
     setOpen(false)
-    setSubOpen(false)
   }, [path])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setOpen(false)
-        setSubOpen(false)
-      }
+      if (e.key === 'Escape') setOpen(false)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   return (
-    <header className="relative z-50 border-b border-[#F0EAEA3B] bg-header pt-1.5 font-sans">
+    <header className="sticky top-0 z-50 border-b border-[#F0EAEA3B] bg-header pt-1.5 font-sans">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-[#1A2C47]"
@@ -46,7 +33,7 @@ export default function Navbar() {
       </a>
       <div className="mx-auto flex min-h-[64px] max-w-site items-center justify-between px-2.5">
         <a href="/" aria-label="TaknikAI home" className="flex w-[180px] shrink-0 items-center px-2.5 md:w-[15%] md:min-w-[150px]">
-          <img src={LOGO_SRC} alt="TaknikAI" width={LOGO_WIDTH} height={LOGO_HEIGHT} className="h-auto w-full max-w-[160px]" />
+          <img src={HEADER_LOGO_SRC} alt="TaknikAI" width={HEADER_LOGO_WIDTH} height={HEADER_LOGO_HEIGHT} className="h-auto w-full max-w-[160px]" />
         </a>
 
         <div className="flex items-center justify-end gap-2.5 px-2.5">
@@ -54,49 +41,22 @@ export default function Navbar() {
             <ul className="flex items-center">
               {NAV.map((item) => {
                 const active = item.key === activeKey
-                const link = `flex items-center gap-1.5 px-5 py-2.5 text-[17px] font-medium leading-5 transition-colors duration-200 hover:text-accent focus-visible:text-accent ${
-                  active ? 'text-accent' : 'text-white'
-                }`
-                if (!item.children) {
-                  return (
-                    <li key={item.key}>
-                      <a href={item.href} aria-current={active ? 'page' : undefined} className={link}>
-                        {item.label}
-                      </a>
-                    </li>
-                  )
-                }
                 return (
-                  <li key={item.key} className="group relative">
-                    <a href={item.href} aria-haspopup="true" className={`${link} group-hover:text-accent group-focus-within:text-accent`}>
+                  <li key={item.key}>
+                    <a
+                      href={item.href}
+                      aria-current={active ? 'page' : undefined}
+                      className={`flex items-center px-5 py-2.5 text-[17px] font-medium leading-5 transition-colors duration-200 hover:text-accent focus-visible:text-accent ${
+                        active ? 'text-accent' : 'text-white'
+                      }`}
+                    >
                       {item.label}
-                      <Caret />
                     </a>
-                    <ul className="invisible absolute left-0 top-full z-10 min-w-[210px] translate-y-1 rounded-lg border border-[#F0EAEA29] bg-header py-1.5 opacity-0 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] transition-all duration-200 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                      {item.children.map((c) => (
-                        <li key={c.label}>
-                          <a
-                            href={c.href}
-                            {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}
-                            className="block px-[18px] py-2.5 text-[15px] font-medium text-white transition-colors hover:bg-white/[0.04] hover:text-accent focus-visible:text-accent"
-                          >
-                            {c.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
                   </li>
                 )
               })}
             </ul>
           </nav>
-
-          <a
-            href={LOGIN_URL}
-            className="hidden rounded-[3px] bg-accent px-6 py-3 text-[15px] font-medium leading-[15px] text-white transition-opacity hover:opacity-90 md:inline-block"
-          >
-            Login/Sign up
-          </a>
 
           <button
             type="button"
@@ -124,40 +84,18 @@ export default function Navbar() {
           <ul>
             {NAV.map((item) => {
               const active = item.key === activeKey
-              const row = `flex w-full items-center gap-2 px-5 py-4 text-left text-[17px] font-medium leading-5 transition-colors ${
-                active ? 'bg-[#3F444B] text-white' : 'text-[#33373D] hover:bg-[#3F444B] hover:text-white'
-              }`
-              if (!item.children) {
-                return (
-                  <li key={item.key}>
-                    <a href={item.href} aria-current={active ? 'page' : undefined} className={row} onClick={() => setOpen(false)}>
-                      {item.label}
-                    </a>
-                  </li>
-                )
-              }
               return (
                 <li key={item.key}>
-                  <button type="button" aria-expanded={subOpen} aria-controls="mobile-submenu" onClick={() => setSubOpen((v) => !v)} className={`${row} ${subOpen ? 'bg-[#3F444B] text-white' : ''}`}>
+                  <a
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                    onClick={() => setOpen(false)}
+                    className={`flex w-full items-center px-5 py-4 text-left text-[17px] font-medium leading-5 transition-colors ${
+                      active ? 'bg-[#3F444B] text-white' : 'text-[#33373D] hover:bg-[#3F444B] hover:text-white'
+                    }`}
+                  >
                     {item.label}
-                    <Caret className={`transition-transform ${subOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  {subOpen && (
-                    <ul id="mobile-submenu">
-                      {item.children.map((c) => (
-                        <li key={c.label}>
-                          <a
-                            href={c.href}
-                            {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}
-                            onClick={() => setOpen(false)}
-                            className="block py-4 pl-9 pr-5 text-[15px] font-medium text-[#1A2C47] transition-colors hover:bg-[#F8FAFC] hover:text-accent"
-                          >
-                            {c.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  </a>
                 </li>
               )
             })}

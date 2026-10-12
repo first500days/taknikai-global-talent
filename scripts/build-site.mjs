@@ -8,7 +8,9 @@
 // What it does to the original pages:
 //   - rewrites absolute https://taknikai.com/... asset and page links to root-relative paths so the site is
 //     self-contained (canonical, Open Graph and JSON-LD URLs stay absolute)
-//   - replaces the header menu with the unified navigation (Home · Upskill · About Us · Blogs)
+//   - replaces the header menu with the unified navigation (Home · Upskill · About Us · Blogs), drops the
+//     Login/Sign up button and shows the white logo in the header and footer
+//   - replaces the footer's description, contact details and company name with the shared ones
 //   - moves the original course homepage from / to /upskill/ (the React Global Talent page becomes /)
 //   - generates the Global Talent articles from the original blog-post template and lists them on /blogs/
 //   - fixes static-hosting breakage (Cloudflare-obfuscated email, dead WordPress endpoints, staging-domain
@@ -29,7 +31,26 @@ const STAGING = 'https://slategray-lobster-248773.hostingersite.com'
 
 // Shared with the React homepage so navigation, contact details and disclaimers stay identical everywhere
 const { ARTICLES } = await import('../src/content/insights.ts')
-const { SITE_URL: SITE, LOGO_SRC, LOGO_WIDTH, LOGO_HEIGHT, ICON_SRC, BOOKING_URL, NAV, FOOTER_LINKS, DISCLAIMER_ADVICE, DISCLAIMER_OUTCOME, GT_COMMUNITY_URL } = await import('../src/lib/site.ts')
+const {
+  SITE_URL: SITE,
+  LOGO_SRC,
+  LOGO_WIDTH,
+  LOGO_HEIGHT,
+  HEADER_LOGO_SRC,
+  HEADER_LOGO_WIDTH,
+  HEADER_LOGO_HEIGHT,
+  ICON_SRC,
+  BOOKING_URL,
+  NAV,
+  FOOTER_LINKS,
+  COMPANY,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_HREF,
+  DISCLAIMER_ADVICE,
+  DISCLAIMER_OUTCOME,
+  GT_COMMUNITY_URL,
+} = await import('../src/lib/site.ts')
 const DISCLAIMER = `${DISCLAIMER_ADVICE} ${DISCLAIMER_OUTCOME}`
 
 /* ------------------------------------------------------------------ pages */
@@ -100,32 +121,15 @@ function write(path, html) {
 
 /* ------------------------------------------------------------ navigation */
 
-// The caret Elementor prints after menu items that have a submenu (its widget's submenu_icon setting)
-const CARET_SVG =
-  '<svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg>'
-
 // Same markup conventions as the WordPress menu, so Elementor's nav-menu widget and SmartMenus keep working
 function menuItems(active, dropdown) {
   const tab = dropdown ? ' tabindex="-1"' : ''
   return NAV.map((item) => {
     const isActive = item.key === active
-    const liClass = ['menu-item', item.children ? 'menu-item-has-children' : '', isActive ? 'current-menu-item' : '']
-      .filter(Boolean)
-      .join(' ')
+    const liClass = `menu-item${isActive ? ' current-menu-item' : ''}`
     const aClass = `elementor-item${isActive ? ' elementor-item-active' : ''}`
     const current = isActive ? ' aria-current="page"' : ''
-    const sub = item.children
-      ? `<ul class="sub-menu elementor-nav-menu--dropdown">${item.children
-          .map(
-            (c) =>
-              `<li class="menu-item"><a href="${c.href}" class="elementor-sub-item"${tab}${
-                c.external ? ' target="_blank" rel="noopener"' : ''
-              }>${c.label}</a></li>`,
-          )
-          .join('')}</ul>`
-      : ''
-    const caret = item.children ? `<span class="sub-arrow">${CARET_SVG}</span>` : ''
-    return `<li class="${liClass}"><a href="${item.href}" class="${aClass}"${current}${tab}>${item.label}${caret}</a>${sub}</li>`
+    return `<li class="${liClass}"><a href="${item.href}" class="${aClass}"${current}${tab}>${item.label}</a></li>`
   }).join('\n')
 }
 
@@ -137,6 +141,25 @@ function footerItems(path, dropdown) {
       active ? ' elementor-item-active' : ''
     }"${active ? ' aria-current="page"' : ''}${tab}>${esc(l.label)}</a></li>`
   }).join('\n')
+}
+
+// Footer "Contact Us" list: both offices (city as a label), then clickable email and phone. Reuses the icons the
+// original list prints, so it keeps the footer widget's styling.
+function footerContact(list) {
+  const icon = (name) => {
+    const at = list.indexOf(`<svg aria-hidden="true" class="e-font-icon-svg e-fas-${name}"`)
+    if (at < 0) throw new Error(`build-site: footer ${name} icon not found`)
+    return `<span class="elementor-icon-list-icon">${list.slice(at, list.indexOf('</svg>', at) + 6)}</span>`
+  }
+  const offices = COMPANY.offices.map(
+    (o) =>
+      `<li class="elementor-icon-list-item tk-office">${icon('map-marker-alt')}<span class="elementor-icon-list-text"><span class="tk-office__city">${esc(o.city)}</span>${esc(o.address)}</span></li>`,
+  )
+  const links = [
+    [`mailto:${CONTACT_EMAIL}`, 'envelope', CONTACT_EMAIL],
+    [CONTACT_PHONE_HREF, 'phone-alt', CONTACT_PHONE],
+  ].map(([href, name, text]) => `<li class="elementor-icon-list-item"><a href="${href}">${icon(name)}<span class="elementor-icon-list-text">${esc(text)}</span></a></li>`)
+  return `<ul class="elementor-icon-list-items">${[...offices, ...links].join('\n')}</ul>`
 }
 
 /* ------------------------------------------------------------ transforms */
@@ -234,6 +257,16 @@ function transform(html, page) {
     .replace(new RegExp(oldLogo, 'g'), `${SITE}${LOGO_SRC}`)
     .replace(/https:\/\/taknikai\.com\/wp-content\/uploads\/2025\/01\/cropped-TAKNIK-AI-1-(\d+)x\d+\.png/g, (_, n) => `${SITE}${ICON_SRC(Number(n))}`)
 
+  // 4c. Header and footer sit on dark backgrounds: white-text logo there (LOGO_SRC stays elsewhere, e.g. JSON-LD)
+  const whiteLogo = (part) =>
+    part.replace(
+      new RegExp(`width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" src="${reEsc(SITE + LOGO_SRC)}"`),
+      `width="${HEADER_LOGO_WIDTH}" height="${HEADER_LOGO_HEIGHT}" src="${HEADER_LOGO_SRC}"`,
+    )
+  html = mustReplace(html, /<header [^>]*elementor-location-header[\s\S]*?<\/header>/, (m) => whiteLogo(m), 'header')
+  html = mustReplace(html, /<footer [^>]*elementor-location-footer[\s\S]*?<\/footer>/, (m) => whiteLogo(m), 'footer')
+  if (!html.includes(`src="${HEADER_LOGO_SRC}"`)) throw new Error('build-site: header/footer logo not found')
+
   // 5. JSON-LD: fix staging URLs, the missing logo, the WP search action and (for /upskill/) the page URL
   html = html.replace(/(<script type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g, (m, open, body, close) => {
     try {
@@ -277,13 +310,33 @@ function transform(html, page) {
   html = mustReplace(html, /(<ul id="menu-1-a7c83f0" class="elementor-nav-menu">)[\s\S]*?(<\/ul>)/, `$1${menuItems(page.nav, false)}$2`, 'header menu')
   html = mustReplace(html, /(<ul id="menu-2-a7c83f0" class="elementor-nav-menu">)[\s\S]*?(<\/ul>)/, `$1${menuItems(page.nav, true)}$2`, 'header dropdown menu')
 
-  // 9. Footer: quick links and the Global Talent disclaimer
+  // 8b. Header: no Login/Sign up button
+  html = mustReplace(
+    html,
+    /<div class="elementor-element elementor-element-d8493a8 [^"]*"[^>]*>\s*<a class="elementor-button[^"]*" href="[^"]*">\s*<span class="elementor-button-content-wrapper">\s*<span class="elementor-button-text">Login\/Sign up<\/span>\s*<\/span>\s*<\/a>\s*<\/div>/,
+    '',
+    'header login button',
+  )
+
+  // 9. Footer: description, quick links, contact details, company name and the Global Talent disclaimer
+  html = mustReplace(
+    html,
+    /(<div class="elementor-element elementor-element-dd4b810 [^>]*>\s*)TaknikAI is an IIT alumni-led[^<]*/,
+    `$1${esc(COMPANY.about)}`,
+    'footer description',
+  )
+  html = mustReplace(
+    html,
+    /(<div class="elementor-element elementor-element-d2f7ea7 [^>]*>\s*)<ul class="elementor-icon-list-items">[\s\S]*?<\/ul>/,
+    (list, open) => open + footerContact(list),
+    'footer contact list',
+  )
   html = mustReplace(html, /(<ul id="menu-1-2c32757" class="elementor-nav-menu sm-vertical">)[\s\S]*?(<\/ul>)/, `$1${footerItems(page.path, false)}$2`, 'footer menu')
   html = mustReplace(html, /(<ul id="menu-2-2c32757" class="elementor-nav-menu sm-vertical">)[\s\S]*?(<\/ul>)/, `$1${footerItems(page.path, true)}$2`, 'footer dropdown menu')
   html = mustReplace(
     html,
-    /(All Rights Reserved By Diksharth Education Pvt Ltd<\/p>)/,
-    `$1<p class="tk-footer-disclaimer">${DISCLAIMER}</p>`,
+    /All Rights Reserved By Diksharth Education Pvt Ltd<\/p>/,
+    `${esc(COMPANY.legal)}</p><p class="tk-footer-disclaimer">${DISCLAIMER}</p>`,
     'footer copyright',
   )
 

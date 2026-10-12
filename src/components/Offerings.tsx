@@ -27,7 +27,7 @@ export default function Offerings() {
     <section id="offerings" aria-labelledby="offerings-title" className="relative border-t border-white/[0.06] bg-sand py-24 sm:py-28">
       <div className="shell">
         <SectionHeader
-          index="14"
+          index="13"
           label="Also from TaknikAI"
           titleId="offerings-title"
           title={

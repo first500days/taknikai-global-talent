@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, RotateCcw } from 'lucide-react'
-import { BOOKING_URL } from '../lib/site'
-import { EASE, MagneticButton, Reveal, SectionHeader } from './ui'
+import { AssessmentButton } from './TallyPopup'
+import { EASE, Reveal, SectionHeader } from './ui'
 
 type Question = {
   id: string
@@ -79,11 +79,11 @@ export default function Assessment() {
   const field = answers[1] !== null ? QUESTIONS[1].options[answers[1] as number] : null
 
   return (
-    <section id="assessment" aria-labelledby="assess-title" className="relative bg-sand py-24 sm:py-32">
+    <section id="assessment" aria-labelledby="assess-title" className="relative border-t border-white/[0.06] bg-sand py-24 sm:py-32">
       <div className="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeader
-            index="10"
+            index="09"
             label="Self-assessment"
             titleId="assess-title"
             title={
@@ -248,9 +248,9 @@ export default function Assessment() {
                     </p>
 
                     <div className="mt-8">
-                      <MagneticButton href={BOOKING_URL} arrow size="lg" className="w-full sm:w-auto">
+                      <AssessmentButton arrow size="lg" className="w-full sm:w-auto">
                         Book Your Free Assessment
-                      </MagneticButton>
+                      </AssessmentButton>
                     </div>
                   </motion.div>
                 )}

@@ -63,7 +63,7 @@ export default function Roadmap() {
     <section aria-labelledby="roadmap-title" className="relative overflow-hidden bg-sand py-24 sm:py-32">
       <div className="shell flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeader
-          index="06"
+          index="05"
           label="Six-month roadmap"
           titleId="roadmap-title"
           title={

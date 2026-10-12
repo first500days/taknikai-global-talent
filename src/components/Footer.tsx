@@ -1,4 +1,15 @@
-import { COMPANY, CONTACT_EMAIL, DISCLAIMER_ADVICE, DISCLAIMER_OUTCOME, FOOTER_LINKS, FOOTER_LOGO_SRC, LOGO_HEIGHT, LOGO_WIDTH } from '../lib/site'
+import {
+  COMPANY,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_HREF,
+  DISCLAIMER_ADVICE,
+  DISCLAIMER_OUTCOME,
+  FOOTER_LINKS,
+  HEADER_LOGO_HEIGHT,
+  HEADER_LOGO_SRC,
+  HEADER_LOGO_WIDTH,
+} from '../lib/site'
 import { useLocation } from '../lib/router'
 import { BrandIcon, type IconName } from './BrandIcon'
 
@@ -21,7 +32,7 @@ export default function Footer() {
       <div className="mx-auto max-w-site px-2.5 pb-[15px] pt-[25px]">
         <div className="grid gap-10 px-5 py-5 md:grid-cols-[288px_1fr] lg:grid-cols-[288px_277px_1fr] lg:gap-[60px]">
           <div>
-            <img src={FOOTER_LOGO_SRC} alt="TaknikAI" width={LOGO_WIDTH} height={LOGO_HEIGHT} loading="lazy" className="h-auto w-[200px]" />
+            <img src={HEADER_LOGO_SRC} alt="TaknikAI" width={HEADER_LOGO_WIDTH} height={HEADER_LOGO_HEIGHT} loading="lazy" className="h-auto w-[200px]" />
             <p className="mt-5 text-[16px] leading-6">{COMPANY.about}</p>
             <ul className="mt-5 flex gap-[15px]" aria-label="TaknikAI on social media">
               {COMPANY.social.map((s) => (
@@ -65,23 +76,30 @@ export default function Footer() {
 
           <div className="md:col-span-2 lg:col-span-1">
             <h2 className="text-[18px] font-semibold leading-[18px] text-white">Contact Us</h2>
-            <address className="mt-5 space-y-2.5 text-[16px] not-italic leading-6">
-              {COMPANY.addresses.map((a) => (
-                <p key={a} className="flex gap-2.5">
+            <address className="mt-5 grid gap-5 text-[16px] not-italic leading-6 sm:grid-cols-2 lg:grid-cols-1">
+              {COMPANY.offices.map((o) => (
+                <div key={o.city} className="flex gap-2.5">
                   <BrandIcon name="mapMarker" className="mt-[5px] h-[14px] w-[14px] shrink-0 text-[#016DD9]" />
-                  {a}
-                </p>
+                  <p>
+                    <span className="block font-semibold text-white">{o.city}</span>
+                    {o.address}
+                  </p>
+                </div>
               ))}
-              <p>
-                <a href={`mailto:${CONTACT_EMAIL}`} className="flex gap-2.5 transition-colors hover:text-white">
-                  <BrandIcon name="envelope" className="mt-[5px] h-[14px] w-[14px] shrink-0 text-[#016DD9]" />
-                  {CONTACT_EMAIL}
-                </a>
-              </p>
-              <p className="flex gap-2.5">
-                <BrandIcon name="phone" className="mt-[5px] h-[14px] w-[14px] shrink-0 text-[#016DD9]" />
-                {COMPANY.phones}
-              </p>
+              <div className="space-y-2.5 sm:col-span-2 lg:col-span-1">
+                <p>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex gap-2.5 transition-colors hover:text-white">
+                    <BrandIcon name="envelope" className="mt-[5px] h-[14px] w-[14px] shrink-0 text-[#016DD9]" />
+                    {CONTACT_EMAIL}
+                  </a>
+                </p>
+                <p>
+                  <a href={CONTACT_PHONE_HREF} className="inline-flex gap-2.5 transition-colors hover:text-white">
+                    <BrandIcon name="phone" className="mt-[5px] h-[14px] w-[14px] shrink-0 text-[#016DD9]" />
+                    {CONTACT_PHONE}
+                  </a>
+                </p>
+              </div>
             </address>
           </div>
         </div>

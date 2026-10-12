@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { BOOKING_URL } from '../lib/site'
 import ProfileGraph from './ProfileGraph'
 import TrustBar from './TrustBar'
+import { AssessmentButton } from './TallyPopup'
 import { EASE, MagneticButton } from './ui'
 
 export default function Hero() {
@@ -57,9 +57,9 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...rise(0.46)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <MagneticButton href={BOOKING_URL} size="lg" arrow>
+            <AssessmentButton size="lg" arrow>
               Book a Free Profile Assessment
-            </MagneticButton>
+            </AssessmentButton>
             <MagneticButton href="#programme" size="lg" variant="secondary">
               Explore the Programme
             </MagneticButton>

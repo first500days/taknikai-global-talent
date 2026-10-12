@@ -1,56 +1,157 @@
 /* Additions made when merging the Global Talent programme into the original TaknikAI site.
    Uses the original site's palette (navy #1A2C47, blue #2563EB → violet #7C3AED, Poppins). */
 
-/* Keep the header (and its dropdowns) above page heroes — the original pages let hero text paint over the open menu */
+/* Fixed header: sticky, so it stays in view while scrolling without covering the content beneath it. Kept above
+   page heroes and their dropdowns (some heroes use z-index: 9999) */
 .elementor-location-header {
-  position: relative;
-  z-index: 10000; /* some page heroes use z-index: 9999 */
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+}
+html {
+  scroll-padding-top: 88px; /* in-page links land below the header */
 }
 .elementor-popup-modal {
   z-index: 10001 !important; /* the consultation popup still covers the header */
 }
 
-/* Unified header: SmartMenus submenu for "Upskill" */
-.elementor-15 .elementor-nav-menu .sub-arrow svg {
-  width: 0.7em;
-  height: 0.7em;
-  fill: currentColor;
+/* Footer contact: office city as a label above its address */
+.elementor-location-footer .tk-office {
+  align-items: flex-start;
 }
-.elementor-15 .elementor-nav-menu--main .sub-menu {
-  min-width: 210px;
-  background: #101a34;
-  border: 1px solid rgba(240, 234, 234, 0.16);
-  border-radius: 8px;
-  padding: 6px 0;
-  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.6);
+.elementor-location-footer .tk-office .elementor-icon-list-icon {
+  margin-top: 5px;
 }
-.elementor-15 .elementor-nav-menu--main .sub-menu .elementor-sub-item {
-  font-family: 'Poppins', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
+.elementor-location-footer .tk-office .elementor-icon-list-text {
+  display: block;
+}
+.elementor-location-footer .tk-office__city {
+  display: block;
   color: #ffffff;
-  padding: 10px 18px;
-  border-inline-start: 0;
+  font-weight: 600;
 }
-.elementor-15 .elementor-nav-menu--main .sub-menu .elementor-sub-item:hover,
-.elementor-15 .elementor-nav-menu--main .sub-menu .elementor-sub-item:focus {
-  color: #e22d4b;
-  background: rgba(255, 255, 255, 0.04);
+.elementor-location-footer .tk-office + .tk-office,
+.elementor-location-footer .tk-office + .elementor-icon-list-item {
+  margin-top: 6px;
 }
-.elementor-15 .elementor-nav-menu--dropdown .sub-menu {
-  background: #ffffff;
+
+/* Blog articles (original and Global Talent posts share the single-post template, elementor-2779): one readable
+   column with consistent typography and spacing */
+.elementor-2779 .elementor-element.elementor-element-0337024 {
+  --content-width: 760px;
+  --padding-top: 48px;
+  --padding-bottom: 80px; /* room before the footer */
+  --padding-left: 20px;
+  --padding-right: 20px;
 }
-.elementor-15 .elementor-nav-menu--dropdown .sub-menu .elementor-sub-item {
-  padding-inline-start: 36px;
-  color: #1a2c47;
+.elementor-2779 .elementor-element.elementor-element-fa04561 .elementor-heading-title {
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: #0f172a;
+}
+.elementor-2779 .elementor-element.elementor-element-9123245 {
+  padding-bottom: 20px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 {
   font-family: 'Poppins', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #334155;
+  overflow-wrap: break-word;
 }
-.elementor-15 .elementor-nav-menu--dropdown .sub-menu .elementor-sub-item:hover,
-.elementor-15 .elementor-nav-menu--dropdown .sub-menu .elementor-sub-item:focus {
-  color: #e22d4b;
-  background: #f8fafc;
+.elementor-2779 .elementor-element.elementor-element-48b7f54 p {
+  margin: 0 0 1.25em;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h2,
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h3,
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h4 {
+  font-family: 'Poppins', sans-serif;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 96px;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h2 {
+  margin: 2.1em 0 0.65em;
+  font-size: clamp(23px, 2.4vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h3 {
+  margin: 1.7em 0 0.55em;
+  font-size: clamp(19px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 h4 {
+  margin: 1.5em 0 0.5em;
+  font-size: 18px;
+  font-weight: 600;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 > :first-child {
+  margin-top: 0;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 ul,
+.elementor-2779 .elementor-element.elementor-element-48b7f54 ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.4em;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 li {
+  margin: 0.45em 0;
+  padding-left: 0.2em;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 li::marker {
+  color: #2563eb;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 figure {
+  margin: 2em 0;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 figcaption {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 blockquote {
+  margin: 1.8em 0;
+  padding: 0.3em 0 0.3em 1.25em;
+  border-left: 3px solid #2563eb;
+  color: #1e293b;
+  font-style: italic;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 a:not(.tk-btn) {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.elementor-2779 .elementor-element.elementor-element-48b7f54 table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (max-width: 767px) {
+  .elementor-2779 .elementor-element.elementor-element-0337024 {
+    --padding-top: 28px;
+    --padding-bottom: 56px;
+  }
+  .elementor-2779 .elementor-element.elementor-element-48b7f54 {
+    font-size: 16px;
+    line-height: 1.75;
+  }
 }
 
 /* Blog listing labels */

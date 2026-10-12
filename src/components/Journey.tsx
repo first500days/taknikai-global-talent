@@ -105,10 +105,10 @@ export default function Journey() {
   const phase = PHASES[sel]
 
   return (
-    <section id="journey" aria-labelledby="journey-title" className="relative py-24 sm:py-32">
+    <section id="programme" aria-labelledby="journey-title" className="relative border-t border-white/[0.06] py-24 sm:py-32">
       <div className="shell">
         <SectionHeader
-          index="05"
+          index="04"
           label="The programme journey"
           titleId="journey-title"
           title={

@@ -58,7 +58,7 @@ export default function EvidenceSystem() {
       <div className="shell relative">
         <SectionHeader
           dark
-          index="07"
+          index="06"
           label="What we actually build"
           titleId="build-title"
           title={

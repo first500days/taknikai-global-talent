@@ -1,4 +1,4 @@
-import { CountUp, Reveal, RevealLi, SectionHeader } from './ui'
+import { CountUp, Reveal, SectionHeader } from './ui'
 
 const SECTORS = ['AI', 'SaaS', 'EdTech', 'HealthTech', 'Consumer Internet']
 
@@ -8,35 +8,12 @@ const FOUNDER_STATS = [
   { value: 5, prefix: '$', suffix: 'M+', label: 'Revenue generated' },
 ]
 
-const ROLES = [
-  {
-    role: 'Profile Strategy Lead',
-    remit: 'Owns your assessment, development roadmap and the overall narrative of your profile.',
-    phases: ['01', '05'],
-  },
-  {
-    role: 'Technical Development Mentor',
-    remit: 'Guides technical depth, project architecture and the quality of your public portfolio.',
-    phases: ['02', '03'],
-  },
-  {
-    role: 'Industry & Recognition Strategist',
-    remit: 'Identifies contribution, visibility and recognition opportunities within your field.',
-    phases: ['04'],
-  },
-  {
-    role: 'Evidence & Profile Specialist',
-    remit: 'Organises, maps and stress-tests your evidence ahead of the handoff.',
-    phases: ['05', '06'],
-  },
-]
-
 export default function Founder() {
   return (
     <section id="proof" aria-labelledby="founder-title" className="relative border-t border-white/[0.06] py-24 sm:py-32">
       <div className="shell">
         <SectionHeader
-          index="08"
+          index="07"
           label="Leadership"
           titleId="founder-title"
           title={
@@ -107,43 +84,6 @@ export default function Founder() {
               ))}
             </dl>
           </Reveal>
-        </div>
-
-        {/* Studio model */}
-        <div className="mt-20">
-          <Reveal className="flex flex-col justify-between gap-4 border-b border-white/[0.1] pb-6 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-400">The studio model</p>
-              <h3 className="mt-3 text-[clamp(1.6rem,3vw,2.25rem)] font-semibold tracking-[-0.035em] text-ink">
-                Four specialist disciplines. One profile.
-              </h3>
-            </div>
-            <p className="max-w-sm text-[14.5px] leading-relaxed text-slate">
-              Each part of your profile is owned by a specialist — not a generalist consultant.
-            </p>
-          </Reveal>
-
-          <ol>
-            {ROLES.map((r, i) => (
-              <RevealLi
-                key={r.role}
-                delay={i * 0.05}
-                className="group grid gap-3 border-b border-white/[0.07] py-7 transition-colors duration-500 hover:bg-white/[0.02] sm:grid-cols-[48px_minmax(0,1fr)_minmax(0,1.3fr)_150px] sm:items-center sm:gap-8 sm:px-4"
-              >
-                <span className="font-mono text-[12px] text-mist transition-colors group-hover:text-brand-400">0{i + 1}</span>
-                <h4 className="text-[20px] font-semibold tracking-[-0.025em] text-ink sm:text-[22px]">{r.role}</h4>
-                <p className="text-[15px] leading-relaxed text-slate">{r.remit}</p>
-                <div className="flex items-center gap-1.5 sm:justify-end">
-                  <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.14em] text-mist">Phases</span>
-                  {r.phases.map((p) => (
-                    <span key={p} className="grid h-7 w-7 place-items-center rounded-full bg-brand-50 font-mono text-[10.5px] text-brand-700 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-onaccent">
-                      {p}
-                    </span>
-                  ))}
-                </div>
-              </RevealLi>
-            ))}
-          </ol>
         </div>
       </div>
     </section>

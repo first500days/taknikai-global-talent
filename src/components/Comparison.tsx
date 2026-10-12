@@ -13,7 +13,7 @@ export default function Comparison() {
     <section id="why-taknikai" aria-labelledby="compare-title" className="relative py-24 sm:py-32">
       <div className="shell">
         <SectionHeader
-          index="11"
+          index="10"
           label="Why TaknikAI"
           titleId="compare-title"
           align="center"

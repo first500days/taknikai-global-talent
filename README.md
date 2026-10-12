@@ -6,7 +6,7 @@ One site, two related offerings:
 | --- | --- | --- |
 | `/` | Global Talent Digital Technology Programme (homepage) | React app (`src/`) |
 | `/upskill/` | Courses — the original taknikai.com homepage | original site (static) |
-| `/success-stories/` | Learner success stories (in the Upskill menu) | original site (static) |
+| `/success-stories/` | Learner success stories (kept, but no longer linked from the header or footer) | original site (static) |
 | `/about-us/` | About Us | original site (static) |
 | `/blogs/` | All articles: original posts + Global Talent articles | original site (static) |
 | `/<post-slug>/` | Blog posts (original URLs preserved; 5 Global Talent posts added) | original site / generated |
@@ -53,8 +53,8 @@ folders named `dist` that the pages load.
   footer links, moves the course homepage to `/upskill/`, generates the Global Talent articles from the original
   post template and lists them on `/blogs/`, decodes Cloudflare-obfuscated emails, fixes staging-domain links, and
   writes `sitemap.xml`/`robots.txt`.
-- `public/site/merge.css` — small stylesheet for additions to the static pages (Upskill submenu, blog labels,
-  article call-to-action, footer disclaimer).
+- `public/site/merge.css` — stylesheet for additions to the static pages (sticky header, footer offices, blog labels,
+  shared article typography and layout, article call-to-action, footer disclaimer).
 - `src/lib/site.ts` — navigation, contact details and disclaimers, shared by the React homepage **and** the build script.
 - `src/content/insights.ts` — the five Global Talent articles, verbatim from "BLOGS FOR TAKNIK AI.docx".
   After adding an article run `npm run covers` to render its cover image (`public/images/blog/`).
@@ -68,9 +68,11 @@ The homepage follows the original site's brand: navy surfaces (`#07101F`, header
 
 ## Before launch
 
-- **Booking link** — `BOOKING_URL` in `src/lib/site.ts` opens an email to team@taknikai.com. Swap in a scheduling
-  link when available.
-- **Case studies** — `src/components/CaseStudies.tsx` holds illustrative examples (labelled as such). Replace them
-  with verified client stories (with consent) before presenting them as real.
+- **Assessment form** — the homepage's "Book a free profile assessment" buttons open the Tally form `TALLY_FORM_ID`
+  (`src/lib/site.ts`) in a popup (`src/components/TallyPopup.tsx`). It is currently the site's existing lead form
+  (`KY66Vk`, "Taknik website lead"), which asks about courses; swap the ID for a dedicated assessment form when one exists.
+  The articles' "Discuss Your Profile" button still uses `BOOKING_URL` (an email to team@taknikai.com).
+- **Case studies** — `src/components/CaseStudies.tsx` holds example profile journeys, not client stories. Replace
+  them with verified client stories (with consent) before presenting them as real.
 - The original pages' forms are Tally embeds and keep working on static hosting. WordPress-only features
   (admin-ajax "Load More", WP search, feeds) are not available.
